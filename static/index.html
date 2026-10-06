@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>Cluedo</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Cluedo</h1>
+    <h2>Créer une partie</h2>
+    <input type="text" id="pseudo-creer" placeholder="Pseudo">
+    <button id="btn-creer">Créer un salon</button>
+
+    <hr>
+
+    <h2>Rejoindre une partie</h2>
+    <input id="code-rejoindre" placeholder="Code">
+    <input id="pseudo-rejoindre" placeholder="Pseudo">
+    <button id="btn-rejoindre">Rejoindre le salon</button>
+    <p id="resultat"></p>
+
+    <div hidden id="salle">
+        <button id="btn-quitter">Quitter le salon</button>
+        <h2 id="code-salon"></h2>
+        <ul id="liste-joueurs"></ul>
+        <p id="etat-salon"></p>
+        <button id="btn-lancer" hidden>Lancer la partie</button>
+    </div>
+
+    <hr>
+
+    <div id="partie" hidden>
+        <p id="mon-pseudo"></p>
+        <h2>Ta main</h2>
+        <ul id="ma-main"></ul>
+
+        <div id="visible">
+            <h2>Cartes révélées</h2>
+            <ul id="cartes-visibles"></ul>
+        </div>
+
+        <h3>Positions des joueurs</h3>
+        <ul id="pos-joueurs"></ul>
+
+        <h3>Positions des suspects</h3>
+        <ul id="pos-suspects"></ul>
+
+        <h3>Positions des armes</h3>
+        <ul id="pos-armes"></ul>
+
+        <p id="info-tour"></p>
+        <div id="options"></div>
+        <button id="btn-finir" hidden>Finir mon tour</button>
+
+        <div id="bloc-supposition" hidden>
+            <h3>Faire une supposition (2 PA)</h3>
+            <select id="choix-suspect"></select>
+            <select id="choix-arme"></select>
+            <button id="btn-supposer">Supposer</button>
+        </div>
+
+        <p id="attente"></p>
+
+        <div id="bloc-repondre" hidden>
+            <h3>Tu dois répondre</h3>
+            <p id="texte-supposition"></p>
+            <div id="choix-cartes"></div>
+        </div>
+
+        <p id="ma-reponse"></p>
+
+        <h3>Journal</h3>
+        <ul id="journal"></ul>
+
+        <div id="bloc-accusation" hidden>
+            <h3>Faire une accusation (1 PA - Dans le Hall)</h3>
+            <select id="acc-suspect"></select>
+            <select id="acc-arme"></select>
+            <select id="acc-salle"></select>
+            <button id="btn-accuser">Accuser</button>
+        </div>
+    </div>
+
+    <div id="bloc-fin" hidden>
+        <p id="texte-fin"></p>
+        <p id="texte-enveloppe"></p>
+        <ul id="journal-final"></ul>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
