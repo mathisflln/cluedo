@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <title>Cluedo</title>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cluedo</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <!-- ACCUEIL -->
     <h1>Cluedo</h1>
+
     <h2>Créer une partie</h2>
     <input type="text" id="pseudo-creer" placeholder="Pseudo">
     <button id="btn-creer">Créer un salon</button>
@@ -19,6 +23,7 @@
     <button id="btn-rejoindre">Rejoindre le salon</button>
     <p id="resultat"></p>
 
+    <!-- SALLE D'ATTENTE -->
     <div hidden id="salle">
         <button id="btn-quitter">Quitter le salon</button>
         <h2 id="code-salon"></h2>
@@ -29,58 +34,120 @@
 
     <hr>
 
+    <!-- PARTIE -->
     <div id="partie" hidden>
-        <p id="mon-pseudo"></p>
-        <h2>Ta main</h2>
-        <ul id="ma-main"></ul>
 
-        <div id="visible">
-            <h2>Cartes révélées</h2>
-            <ul id="cartes-visibles"></ul>
-        </div>
+        <!-- Zone "journal" (haut gauche) -->
+        <section id="zone-journal">
+            <h3>Journal</h3>
+            <ul id="journal"></ul>
+        </section>
 
-        <h3>Positions des joueurs</h3>
-        <ul id="pos-joueurs"></ul>
+        <!-- Zone "fiche" (milieu et bas gauche) -->
+        <section id="zone-fiche">
+            <h3>Ma fiche d'enquête</h3>
+            <table>
+                <tr><th colspan="2">Suspects</th></tr>
+                <tr><td>Le Jardinier</td><td><input type="checkbox"></td></tr>
+                <tr><td>Le Majordome</td><td><input type="checkbox"></td></tr>
+                <tr><td>La Comtesse</td><td><input type="checkbox"></td></tr>
+                <tr><td>La Gouvernante</td><td><input type="checkbox"></td></tr>
+                <tr><td>Le Cuisinier</td><td><input type="checkbox"></td></tr>
+                <tr><td>Le Chauffeur</td><td><input type="checkbox"></td></tr>
 
-        <h3>Positions des suspects</h3>
-        <ul id="pos-suspects"></ul>
+                <tr><th colspan="2">Armes</th></tr>
+                <tr><td>Pistolet</td><td><input type="checkbox"></td></tr>
+                <tr><td>Pelle</td><td><input type="checkbox"></td></tr>
+                <tr><td>Couteau</td><td><input type="checkbox"></td></tr>
+                <tr><td>Tournevis</td><td><input type="checkbox"></td></tr>
+                <tr><td>Vase</td><td><input type="checkbox"></td></tr>
+                <tr><td>Hache</td><td><input type="checkbox"></td></tr>
 
-        <h3>Positions des armes</h3>
-        <ul id="pos-armes"></ul>
+                <tr><th colspan="2">Salles</th></tr>
+                <tr><td>Serre</td><td><input type="checkbox"></td></tr>
+                <tr><td>Bureau</td><td><input type="checkbox"></td></tr>
+                <tr><td>Chambre</td><td><input type="checkbox"></td></tr>
+                <tr><td>Salle à manger</td><td><input type="checkbox"></td></tr>
+                <tr><td>Hall</td><td><input type="checkbox"></td></tr>
+                <tr><td>Salon</td><td><input type="checkbox"></td></tr>
+                <tr><td>Cave</td><td><input type="checkbox"></td></tr>
+                <tr><td>Entrée</td><td><input type="checkbox"></td></tr>
+                <tr><td>Cuisine</td><td><input type="checkbox"></td></tr>
+            </table>
+        </section>
 
-        <p id="info-tour"></p>
-        <div id="options"></div>
-        <button id="btn-finir" hidden>Finir mon tour</button>
+        <!-- Zone "plan" (haut et milieu, colonne centrale) : sièges + positions -->
+        <section id="zone-plan">
+            <div id="siege-haut"></div>
+            <div id="siege-gauche"></div>
 
-        <div id="bloc-supposition" hidden>
-            <h3>Faire une supposition (2 PA)</h3>
-            <select id="choix-suspect"></select>
-            <select id="choix-arme"></select>
-            <button id="btn-supposer">Supposer</button>
-        </div>
+            <div id="contenu-plan">
+                <h3>Positions des joueurs</h3>
+                <ul id="pos-joueurs"></ul>
 
-        <p id="attente"></p>
+                <h3>Positions des suspects</h3>
+                <ul id="pos-suspects"></ul>
 
-        <div id="bloc-repondre" hidden>
-            <h3>Tu dois répondre</h3>
-            <p id="texte-supposition"></p>
-            <div id="choix-cartes"></div>
-        </div>
+                <h3>Positions des armes</h3>
+                <ul id="pos-armes"></ul>
+            </div>
 
-        <p id="ma-reponse"></p>
+            <div id="siege-droite"></div>
+        </section>
 
-        <h3>Journal</h3>
-        <ul id="journal"></ul>
+        <!-- Zone "actions" (colonne de droite) -->
+        <section id="zone-actions">
+            <p id="info-tour"></p>
+            <div id="options"></div>
+            <button id="btn-finir" hidden>Finir mon tour</button>
 
-        <div id="bloc-accusation" hidden>
-            <h3>Faire une accusation (1 PA - Dans le Hall)</h3>
-            <select id="acc-suspect"></select>
-            <select id="acc-arme"></select>
-            <select id="acc-salle"></select>
-            <button id="btn-accuser">Accuser</button>
-        </div>
+            <div id="bloc-supposition" hidden>
+                <h3>Faire une supposition (2 PA)</h3>
+                <select id="choix-suspect"></select>
+                <select id="choix-arme"></select>
+                <button id="btn-supposer">Supposer</button>
+            </div>
+
+            <p id="attente"></p>
+
+            <div id="bloc-repondre" hidden>
+                <h3>Tu dois répondre</h3>
+                <p id="texte-supposition"></p>
+                <div id="choix-cartes"></div>
+            </div>
+
+            <p id="ma-reponse"></p>
+
+            <div id="bloc-accusation" hidden>
+                <h3>Faire une accusation (1 PA - Dans le Hall)</h3>
+                <select id="acc-suspect"></select>
+                <select id="acc-arme"></select>
+                <select id="acc-salle"></select>
+                <button id="btn-accuser">Accuser</button>
+            </div>
+        </section>
+
+        <!-- Zone "main" (bas, colonnes centrale et droite) : ta main + siège du bas -->
+        <section id="zone-main">
+            <div id="rangee-cartes">
+                <div id="bloc-main">
+                    <p id="mon-pseudo"></p>
+                    <h2>Ta main</h2>
+                    <ul id="ma-main"></ul>
+                </div>
+
+                <div id="visible">
+                    <h2>Cartes révélées</h2>
+                    <ul id="cartes-visibles"></ul>
+                </div>
+            </div>
+
+            <div id="siege-bas"></div>
+        </section>
+
     </div>
 
+    <!-- FIN DE PARTIE -->
     <div id="bloc-fin" hidden>
         <p id="texte-fin"></p>
         <p id="texte-enveloppe"></p>

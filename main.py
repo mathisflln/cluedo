@@ -44,6 +44,10 @@ async def voir_salon(code: str):
     if salon["etat"] == "fini":
         enveloppe = salon["enveloppe"]
 
+    nb_cartes = {}
+    for pseudo, main in salon.get("mains", {}).items():
+        nb_cartes[pseudo] = len(main)
+
     salon_public = {
         "hote": salon["hote"], 
         "joueurs": salon["joueurs"], 
@@ -61,7 +65,9 @@ async def voir_salon(code: str):
         "elimines": salon.get("elimines", []),
         "gagnant": salon.get("gagnant"),
         "salles": game.SALLES,
-        "enveloppe": enveloppe
+        "enveloppe": enveloppe,
+        "ordre": salon.get("ordre", []),
+        "nb_cartes": nb_cartes
     }
     return salon_public
 

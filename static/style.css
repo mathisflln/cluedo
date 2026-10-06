@@ -1,1 +1,341 @@
+/* ============ BASE ============ */
 [hidden] { display: none !important; }
+
+:root {
+    --fond: #1e1b18;
+    --panneau: #2b2622;
+    --texte: #f0e9df;
+    --bordure: #4a4038;
+    --accent: #8c4a2f;
+    --danger: #d9534f;
+    --carte-max: 120px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--fond);
+    color: var(--texte);
+    font-family: Georgia, serif;
+    margin: 0;
+    padding: 20px;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid var(--bordure);
+    margin: 20px 0;
+}
+
+/* ============ BOUTONS, CHAMPS ============ */
+button {
+    padding: 8px 14px;
+    border: 1px solid var(--bordure);
+    border-radius: 8px;
+    background: var(--accent);
+    color: var(--texte);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: filter 0.15s;
+}
+
+button:hover {
+    filter: brightness(1.2);
+}
+
+select,
+input[type="text"],
+input:not([type]) {
+    padding: 6px;
+    border: 1px solid var(--bordure);
+    border-radius: 6px;
+    background: var(--fond);
+    color: var(--texte);
+    margin: 0 6px 6px 0;
+    font-size: 1rem;
+}
+
+input[type="checkbox"] {
+    accent-color: var(--accent);
+}
+
+#resultat {
+    color: var(--danger);
+}
+
+/* ============ GRILLE PRINCIPALE ============ */
+#partie {
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr) 300px;
+    grid-template-rows: minmax(0, 1fr) minmax(0, 2fr) auto;
+    grid-template-areas:
+        "journal plan  actions"
+        "fiche   plan  actions"
+        "fiche   main  main";
+    gap: 20px;
+    height: max(600px, calc(100vh - 40px));
+}
+
+#partie > section {
+    background: var(--panneau);
+    border: 1px solid var(--bordure);
+    border-radius: 12px;
+    padding: 16px;
+    min-width: 0;
+    min-height: 0;
+    overflow: auto;
+}
+
+#partie h2,
+#partie h3 {
+    margin-top: 0;
+    margin-bottom: 8px;
+}
+
+#zone-journal { grid-area: journal; }
+#zone-plan    { grid-area: plan; }
+#zone-actions { grid-area: actions; }
+#zone-fiche   { grid-area: fiche; }
+#zone-main    { grid-area: main; }
+
+/* ============ JOURNAL ============ */
+#journal,
+#journal-final {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#journal li,
+#journal-final li {
+    padding: 4px 0;
+    border-bottom: 1px solid var(--bordure);
+    font-size: 0.9rem;
+}
+
+/* ============ FICHE D'ENQUETE ============ */
+#zone-fiche table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#zone-fiche th {
+    text-align: left;
+    padding: 6px 4px;
+    border-bottom: 2px solid var(--bordure);
+}
+
+#zone-fiche td {
+    padding: 3px 4px;
+    border-bottom: 1px solid var(--bordure);
+}
+
+#zone-fiche td:last-child {
+    text-align: right;
+}
+
+#zone-fiche tr:has(input:checked) td:first-child {
+    text-decoration: line-through;
+    opacity: 0.5;
+}
+
+/* ============ ZONE PLAN : sieges haut / gauche / droite ============ */
+#zone-plan {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-areas:
+        "haut   haut    haut"
+        "gauche contenu droite";
+}
+
+#siege-haut   { grid-area: haut; }
+#siege-gauche { grid-area: gauche; }
+#siege-droite { grid-area: droite; }
+#contenu-plan { grid-area: contenu; min-height: 0; overflow: auto; }
+
+#siege-haut {
+    display: flex;
+    justify-content: center;
+}
+
+#siege-gauche,
+#siege-droite,
+#siege-bas {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#siege-bas {
+    justify-content: flex-end;
+}
+
+/* ============ SIEGES DES AUTRES JOUEURS ============ */
+.siege {
+    margin: 6px;
+    padding: 6px 10px;
+    min-width: 100px;
+    text-align: center;
+    background: var(--fond);
+    border: 2px solid var(--bordure);
+    border-radius: 10px;
+}
+
+.siege-nom {
+    font-size: 0.85rem;
+    margin-bottom: 4px;
+}
+
+.siege-cartes {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2px;
+}
+
+.dos {
+    width: 14px;
+    height: 20px;
+    border-radius: 2px;
+    background: var(--accent);
+    border: 1px solid var(--bordure);
+}
+
+.siege.actif {
+    border-color: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+}
+
+.siege.elimine {
+    opacity: 0.4;
+    filter: grayscale(1);
+}
+
+/* ============ ZONE MAIN : ta main + cartes revelees + siege du bas ============ */
+#zone-main {
+    display: flex;
+    align-items: flex-end;
+}
+
+#rangee-cartes {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+}
+
+#bloc-main,
+#visible {
+    flex: var(--n, 1) 1 0px;
+    min-width: 0;
+}
+
+#ma-main,
+#cartes-visibles {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+#ma-main li,
+#cartes-visibles li {
+    flex: 1 1 0px;
+    min-width: 0;
+    max-width: var(--carte-max);
+    aspect-ratio: 3 / 4;
+    padding: 4px;
+    border: 2px solid var(--bordure);
+    border-radius: 10px;
+    background: var(--fond);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow-wrap: anywhere;
+    font-size: clamp(0.65rem, 1.1vw, 0.95rem);
+}
+
+#cartes-visibles li {
+    border-style: dashed;
+    opacity: 0.7;
+}
+
+/* ============ ZONE ACTIONS ============ */
+#info-tour {
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 8px 12px;
+    background: var(--fond);
+    border-radius: 8px;
+}
+
+#attente {
+    font-style: italic;
+}
+
+#options,
+#choix-cartes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 8px 0;
+}
+
+#bloc-supposition,
+#bloc-repondre,
+#bloc-accusation {
+    border: 1px dashed var(--bordure);
+    border-radius: 8px;
+    padding: 12px;
+    margin-top: 12px;
+}
+
+#bloc-accusation {
+    border-color: var(--danger);
+}
+
+/* ============ FIN DE PARTIE ============ */
+#bloc-fin {
+    background: var(--panneau);
+    border: 1px solid var(--bordure);
+    border-radius: 12px;
+    padding: 16px;
+    max-width: 700px;
+}
+
+#texte-fin {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+#journal-final {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+/* ============ PETITS ECRANS ============ */
+/*@media (max-width: 900px) {
+    #partie {
+        height: auto;
+        grid-template-columns: 1fr;
+        grid-template-rows: none;
+        grid-template-areas:
+            "actions"
+            "plan"
+            "main"
+            "journal"
+            "fiche";
+    }
+
+    #zone-plan { min-height: 320px; }
+}
+*/
